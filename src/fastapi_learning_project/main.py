@@ -1,12 +1,8 @@
 from fastapi import FastAPI
 from scalar_fastapi import get_scalar_api_reference
 
+
 app = FastAPI()
-
-@app.get("/")
-def root():
-    return {"message": "Hello World"}
-
 
 @app.get("/scalar", include_in_schema=False)
 def get_scalar_docs():
@@ -14,3 +10,10 @@ def get_scalar_docs():
         openapi_url=app.openapi_url,
         title="Scalar API"
     )
+###
+@app.get("/")
+def root():
+    return {"message": "Hello World"}
+
+
+
