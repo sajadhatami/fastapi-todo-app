@@ -20,7 +20,4 @@ AsyncSessionLocal = async_sessionmaker(
 # 3. یک تابع کمکی برای گرفتن Session (برای استفاده در Dependency Injection)
 async def get_db():
     async with AsyncSessionLocal() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+        yield session
