@@ -1,6 +1,6 @@
 my_commands
 .vscode
-
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
