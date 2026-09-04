@@ -5,7 +5,7 @@
 | Field                   | Type       | Nullable | Unique | Key | Mutable | Notes                 |
 | ----------------------- | ---------- | -------- | ------ | --- | ------- | --------------------- |
 | `id`                    | `BIGINT`   | No       | Yes    | PK  | No      | Internal identifier   |
-| `full_name`             | `VARCHAR`  | Yes      | No     | —   | Yes     | Optional username     |
+| `full_name`             | `VARCHAR`  | No       | No     | —   | Yes     | Optional username     |
 | `email`                 | `VARCHAR`  | No       | Yes    | —   | Yes     | will use for Auth     |
 | `phone_number`          | `VARCHAR`  | Yes      | Yes    | —   | Yes     | —                     |
 | `password`              | `TEXT`     | No       | No     | —   | Yes     | —                     |
@@ -55,3 +55,4 @@ Todo.status:
 Todo.todo_type:
   - task
   - event
+  - reminder
