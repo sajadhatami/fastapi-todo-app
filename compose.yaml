@@ -11,7 +11,8 @@ services:
       - "8000:8000"
 
     volumes:
-      - ./src:/app/src
+      - ./:/app
+      - /app/.venv
 
     environment:
       PYTHONDONTWRITEBYTECODE: "1"
