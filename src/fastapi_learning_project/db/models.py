@@ -36,9 +36,11 @@ class Users(Base):
     __tablename__ = "users"
     
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    
     full_name: Mapped[str] = mapped_column(String(255), index=True)
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     phone_number: Mapped[str | None] = mapped_column(String(11), index=True)
+    
     hashed_password: Mapped[str] = mapped_column()
     is_active: Mapped[bool] = mapped_column(default=True)
     role: Mapped[UserRole] = mapped_column(default=UserRole.USER)
@@ -51,6 +53,7 @@ class Todos(Base):
     __tablename__ = "todos"
     
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    
     title: Mapped[str] = mapped_column(String(255), index=True)
     description: Mapped[str | None] = mapped_column()
     priority: Mapped[TodoPriority] = mapped_column(default=TodoPriority.DEFAULT)
