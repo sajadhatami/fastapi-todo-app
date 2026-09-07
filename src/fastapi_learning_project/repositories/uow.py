@@ -7,58 +7,44 @@ from src.fastapi_learning_project.repositories.user import UserRepository
 
 class UnitOfWork:
     """
-    this class implements the Unit of Work pattern for managing database transactions and repositories.
+    Coordinates transactions and shares a single database session 
+    across all domain repositories.
     """
 
     def __init__(self) -> None:
-        # initialize the session and repositories to None. They will be set when entering the context manager.
+        self.session_factory = AsyncSessionLocal
         self._session: AsyncSession | None = None
-        self._todos: TodoRepository | None = None
-        self._users: UserRepository | None = None
+        self.todos: TodoRepository | None = None
+        self.users: UserRepository | None = None
 
     async def __aenter__(self) -> "UnitOfWork":
         """
-        async context manager entry method. It initializes the database session and repositories.
+        Invoked when entering the 'async with' block.
+        Opens a session and initializes repositories with this shared session.
         """
-        # ساخت یک Session جدید از کارخانه Session
-        self._session = AsyncSessionLocal()
+        self._session = self.session_factory()
         
-        # ساخت Repositoryها و دادن Session مشترک به آن‌ها
-        self._todos = TodoRepository(session=self._session)
-        self._users = UserRepository(session=self._session)
+        # Inject the SAME session into all repositories
+        self.todos = TodoRepository(self._session)
+        self.users = UserRepository(self._session)
         
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
         """
-        async context manager exit method. It handles committing or rolling back the transaction based on whether an exception occurred.
+        Invoked when exiting the 'async with' block.
+        Handles commit on success, rollback on exception, and safe cleanup.
         """
         if self._session is None:
             return
 
         try:
             if exc_type is not None:
-                # اگر خطایی (Exception) در طول عملیات رخ داده باشد
+                # An exception occurred, rollback the transaction
                 await self._session.rollback()
             else:
-                # اگر هیچ خطایی رخ نداده باشد
+                # No exception, commit the changes
                 await self._session.commit()
         finally:
-            # در هر حالت (موفقیت یا شکست)، Session را می‌بندیم 
-            # تا اتصال به دیتابیس آزاد شود و Connection Leak نداشته باشیم
+            # Always close the session to return the connection to the pool
             await self._session.close()
-            self._session = None
-
-    # --- Propertyها برای دسترسی ایمن به Repositoryها ---
-    
-    @property
-    def todos(self) -> TodoRepository:
-        if self._todos is None:
-            raise RuntimeError("Unit of Work is not initialized. Use 'async with UnitOfWork()'.")
-        return self._todos
-
-    @property
-    def users(self) -> UserRepository:
-        if self._users is None:
-            raise RuntimeError("Unit of Work is not initialized. Use 'async with UnitOfWork()'.")
-        return self._users

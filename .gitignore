@@ -3,6 +3,7 @@ project_dump.txt
 .vscode
 .idea
 temp_test.py
+generate_dump.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
