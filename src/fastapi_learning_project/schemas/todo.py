@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
-from src.fastapi_learning_project.db.models import TodoStatus, TodoPriority, TodoType
+from fastapi_learning_project.db.models import TodoStatus, TodoPriority, TodoType
 from datetime import datetime
 
 

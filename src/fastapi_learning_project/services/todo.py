@@ -1,9 +1,9 @@
-from src.fastapi_learning_project.repositories.uow import UnitOfWork
-from src.fastapi_learning_project.db.models import Todos
-from src.fastapi_learning_project.schemas.todo import TodoCreate
-from src.fastapi_learning_project.services.exceptions import TodoNotFoundException
+from fastapi_learning_project.repositories.uow import UnitOfWork
+from fastapi_learning_project.db.models import Todos
+from fastapi_learning_project.schemas.todo import TodoCreate
+from fastapi_learning_project.services.exceptions import TodoNotFoundException
 from collections.abc import Sequence
-from src.fastapi_learning_project.schemas.todo import TodoUpdate
+from fastapi_learning_project.schemas.todo import TodoUpdate
 
 class TodoService:
     """

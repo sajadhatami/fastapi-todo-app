@@ -1,7 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-from src.fastapi_learning_project.db.models import UserRole
+from fastapi_learning_project.db.models import UserRole
 
 
 

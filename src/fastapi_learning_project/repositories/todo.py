@@ -2,7 +2,7 @@ from collections.abc import Sequence
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.fastapi_learning_project.db.models import Todos
+from fastapi_learning_project.db.models import Todos
 
 
 class TodoRepository:
