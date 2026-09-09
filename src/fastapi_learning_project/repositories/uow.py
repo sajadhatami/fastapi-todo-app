@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.fastapi_learning_project.db.session import AsyncSessionLocal
-from src.fastapi_learning_project.repositories.todo import TodoRepository
-from src.fastapi_learning_project.repositories.user import UserRepository
+from fastapi_learning_project.db.session import AsyncSessionLocal
+from fastapi_learning_project.repositories.todo import TodoRepository
+from fastapi_learning_project.repositories.user import UserRepository
 
 
 class UnitOfWork:

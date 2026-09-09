@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from src.fastapi_learning_project.core.config import settings
+from fastapi_learning_project.core.config import settings
 
 # 1. creating AsyncEngine
 engine = create_async_engine(

@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.fastapi_learning_project.db.models import Users
+from fastapi_learning_project.db.models import Users
 
 
 class UserRepository:
