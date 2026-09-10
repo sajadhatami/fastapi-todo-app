@@ -34,7 +34,15 @@ class TodoRepository:
         stmt = select(Todos).where(Todos.user_id == user_id)
         result = await self.session.execute(stmt)
         return result.scalars().all()
-
+    
+    async def refresh(self, todo: Todos) -> None:
+        """
+        Send the updated changes to the database and fetch the generated fields (like updated_at).
+        """
+        await self.session.flush()
+        await self.session.refresh(todo)
+        
+        
     async def delete(self, todo: Todos) -> None:
         """Mark a Todo instance for deletion."""
         await self.session.delete(todo)

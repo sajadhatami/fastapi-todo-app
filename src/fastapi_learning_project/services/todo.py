@@ -67,20 +67,18 @@ class TodoService:
     async def update_todo(self, todo_id: int, user_id: int, update_data: TodoUpdate) -> Todos:
         """
         Updates an existing todo safely.
-        Uses 'exclude_unset=True' to only update fields provided by the user.
         """
         async with self.uow:
-            # 1. Fetch securely
             todo = await self.uow.todos.get_by_id_and_user_id(todo_id=todo_id, user_id=user_id)
             if not todo:
                 raise TodoNotFoundException(f"Todo with ID {todo_id} not found.")
 
-            # 2. Update fields dynamically
             update_dict = update_data.model_dump(exclude_unset=True)
             for key, value in update_dict.items():
                 setattr(todo, key, value) 
 
-            # 3. Transaction commits automatically when exiting 'async with'
+            await self.uow.todos.refresh(todo)
+
             return todo
 
     async def delete_todo(self, todo_id: int, user_id: int) -> None:
