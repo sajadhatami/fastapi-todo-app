@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from scalar_fastapi import get_scalar_api_reference
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_learning_project.api.routers.auth import router as auth_router
 from fastapi_learning_project.api.routers.todo import router as todo_router
 from fastapi_learning_project.services.exceptions import (
@@ -11,8 +11,15 @@ from fastapi_learning_project.services.exceptions import (
     UserAlreadyExistsException,
 )
 
-app = FastAPI(title="FastAPI Learning Project")
+app = FastAPI(title="FastAPI Todo App")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # در پروداکشن واقعی فقط دامنه سایت خودتان را وارد کنید
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.exception_handler(TodoNotFoundException)
 async def todo_not_found_exception_handler(request: Request, exc: TodoNotFoundException):

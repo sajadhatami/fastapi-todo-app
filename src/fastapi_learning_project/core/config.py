@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     """
     Settings class for application configuration.
     """
-    SECRET_KEY: str = "dev-secret-key-change-in-production-1234567890"
+    SECRET_KEY: str 
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     DATABASE_URL: str
