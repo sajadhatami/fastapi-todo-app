@@ -1,70 +1,36 @@
 services:
-
   api:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-
-    container_name: fastapi-learning-api
-
+      dockerfile: Dockerfile
+    container_name: fastapi-learning-api-prod
+    restart: always
     ports:
       - "8000:8000"
-
-    volumes:
-      - ./src:/app/src
-
     environment:
       PYTHONDONTWRITEBYTECODE: "1"
       PYTHONUNBUFFERED: "1"
-
       DATABASE_URL: ${DATABASE_URL}
-
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
     image: postgres:18
-
-    container_name: fastapi-learning-postgres
-
+    container_name: fastapi-learning-postgres-prod
+    restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
-    ports:
-      - "5432:5432"
-
     volumes:
-      - postgres_data:/var/lib/postgresql
-
+      - postgres_prod_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d fastapi_learning"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-
-    container_name: fastapi-learning-pgadmin
-
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-
-    ports:
-      - "5050:80"
-
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-
-
 volumes:
-  postgres_data:
-  pgadmin_data:
+  postgres_prod_data:
